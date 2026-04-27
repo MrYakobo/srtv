@@ -1,0 +1,27 @@
+{
+  "name": "flashy-video-app",
+  "version": "1.0.0",
+  "description": "Flashy lyric video generator — paste SRT, upload MP3, get a beat-synced music video",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@remotion/media": "^4.0.452",
+    "@remotion/player": "4.0.452",
+    "@remotion/web-renderer": "^4.0.452",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.452"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "4.5.2",
+    "typescript": "5.9.3",
+    "vite": "6.3.5"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
