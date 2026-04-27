@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { X, Plus, Trash2 } from "lucide-react";
 import type { SubtitleCue } from "./lib/parse-srt";
 
 interface SrtEditorProps {
@@ -183,7 +184,7 @@ export const SrtEditor: React.FC<SrtEditorProps> = ({
                 {isLiveTarget ? "▸" : ""}{i + 1}
               </span>
 
-              <input value={cue.text} onChange={(e) => update(i, { text: e.target.value })} onClick={(e) => e.stopPropagation()} style={{ ...inputStyle, width: "100%" }} placeholder="Subtitle text…" />
+              <textarea value={cue.text} onChange={(e) => update(i, { text: e.target.value })} onClick={(e) => e.stopPropagation()} rows={1 + (cue.text.match(/\n/g)?.length ?? 0)} style={{ ...inputStyle, width: "100%", resize: "none", lineHeight: 1.4, overflow: "hidden" }} placeholder="Subtitle text…" />
 
               <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <button onClick={(e) => { e.stopPropagation(); nudge(i, "startTime", -0.1); }} style={{ ...btnStyle, padding: "3px 5px", fontSize: 10, flexShrink: 0 }} title="-0.1s">◀</button>
@@ -197,14 +198,14 @@ export const SrtEditor: React.FC<SrtEditorProps> = ({
                 <button onClick={(e) => { e.stopPropagation(); nudge(i, "endTime", 0.1); }} style={{ ...btnStyle, padding: "3px 5px", fontSize: 10, flexShrink: 0 }} title="+0.1s">▶</button>
               </div>
 
-              <button onClick={(e) => { e.stopPropagation(); remove(i); }} style={{ ...btnStyle, padding: "3px 6px", color: "rgba(230,57,70,0.7)", fontSize: 13, lineHeight: 1 }} title="Delete cue">×</button>
+              <button onClick={(e) => { e.stopPropagation(); remove(i); }} style={{ ...btnStyle, padding: "3px 6px", color: "rgba(230,57,70,0.7)", lineHeight: 1, display: "grid", placeItems: "center" }} title="Delete cue"><X size={13} /></button>
             </div>
           );
         })}
       </div>
 
       {/* Add at end */}
-      <button onClick={add} style={{ ...btnStyle, marginTop: 2, padding: "6px 0", textAlign: "center", width: "100%", color: "rgba(255,255,255,0.5)", flexShrink: 0 }}>+ Add cue</button>
+      <button onClick={add} style={{ ...btnStyle, marginTop: 2, padding: "6px 0", textAlign: "center", width: "100%", color: "rgba(255,255,255,0.5)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}><Plus size={13} /> Add cue</button>
 
       {/* Context menu */}
       {ctx && (
@@ -230,7 +231,7 @@ export const SrtEditor: React.FC<SrtEditorProps> = ({
             onMouseLeave={(e) => { (e.target as HTMLElement).style.background = "none"; }}
             onClick={() => { insertAt(ctx.cueIndex); setCtx(null); }}
           >
-            Insert above cue {ctx.cueIndex + 1}
+            <Plus size={12} style={{ marginRight: 6, verticalAlign: -1 }} />Insert above cue {ctx.cueIndex + 1}
           </button>
           <button
             style={menuItemStyle}
@@ -238,7 +239,7 @@ export const SrtEditor: React.FC<SrtEditorProps> = ({
             onMouseLeave={(e) => { (e.target as HTMLElement).style.background = "none"; }}
             onClick={() => { insertAt(ctx.cueIndex + 1); setCtx(null); }}
           >
-            Insert below cue {ctx.cueIndex + 1}
+            <Plus size={12} style={{ marginRight: 6, verticalAlign: -1 }} />Insert below cue {ctx.cueIndex + 1}
           </button>
           <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "4px 0" }} />
           <button
@@ -247,7 +248,7 @@ export const SrtEditor: React.FC<SrtEditorProps> = ({
             onMouseLeave={(e) => { (e.target as HTMLElement).style.background = "none"; }}
             onClick={() => { remove(ctx.cueIndex); setCtx(null); }}
           >
-            Delete cue {ctx.cueIndex + 1}
+            <Trash2 size={12} style={{ marginRight: 6, verticalAlign: -1 }} />Delete cue {ctx.cueIndex + 1}
           </button>
         </div>
       )}
